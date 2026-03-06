@@ -5,7 +5,7 @@ import "testing"
 func TestVariadicFunction(t *testing.T) {
 	numbers := []int{1, 2, 3, 4}
 
-	got := Calculate(numbers...)
+	got := calculate(numbers...)
 	want := 10
 
 	if got != want {
