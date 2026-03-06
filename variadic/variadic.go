@@ -1,3 +1,4 @@
+// Package variadic
 package variadic
 
 func Calculate(numbers ...int) int {
