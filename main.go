@@ -9,5 +9,5 @@ import (
 func main() {
 	numbers := []int{1, 2, 3, 4}
 
-	fmt.Printf("%q", vrdc.Calculate(numbers...))
+	fmt.Printf("%d\n", vrdc.Calculate(numbers...))
 }
