@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 
+	httpserver "github.com/siwakasen/go-with-TDD/httpserver"
 	vrdc "github.com/siwakasen/go-with-TDD/variadic"
 )
 
@@ -11,4 +14,8 @@ func main() {
 
 	// using other package's function
 	fmt.Printf("%d\n", vrdc.Calculate(numbers...))
+
+	// httpserver
+	handler := http.HandlerFunc(httpserver.PlayerServer)
+	log.Fatal(http.ListenAndServe(":5001", handler))
 }
