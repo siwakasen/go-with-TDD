@@ -12,7 +12,7 @@ type PlayerStore interface {
 }
 
 type PlayerServer struct {
-	store PlayerStore
+	Store PlayerStore
 }
 
 type StubPlayerStore struct {
@@ -20,16 +20,26 @@ type StubPlayerStore struct {
 }
 
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		w.WriteHeader(http.StatusAccepted)
+	switch r.Method {
+	case http.MethodPost:
+		p.processWin(w)
+	case http.MethodGet:
+		p.showScore(w, r)
 	}
+}
+
+func (p *PlayerServer) showScore(w http.ResponseWriter, r *http.Request) {
 	player := strings.TrimPrefix(r.URL.Path, "/players/")
-	score := p.store.GetPlayerScore(player)
+	score := p.Store.GetPlayerScore(player)
 
 	if score == 0 {
 		w.WriteHeader(http.StatusNotFound)
 	}
 	fmt.Fprint(w, score)
+}
+
+func (p *PlayerServer) processWin(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusAccepted)
 }
 
 func GetPlayerScore(name string) string {
