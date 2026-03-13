@@ -15,10 +15,6 @@ type PlayerServer struct {
 	Store PlayerStore
 }
 
-type StubPlayerStore struct {
-	scores map[string]int
-}
-
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
