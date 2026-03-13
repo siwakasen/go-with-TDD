@@ -1,3 +1,4 @@
+// Package main
 package main
 
 import (
@@ -5,26 +6,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/siwakasen/go-with-TDD/httpserver"
-	vrdc "github.com/siwakasen/go-with-TDD/variadic"
+	. "github.com/siwakasen/go-with-TDD/httpserver"
 )
 
-type InMemoryPlayerStore struct{}
-
-func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return 123
-}
-
-func (i *InMemoryPlayerStore) RecordWin(name string) {
-}
-
 func main() {
-	numbers := []int{1, 2, 3, 4}
-
-	// using other package's function
-	fmt.Printf("%d\n", vrdc.Calculate(numbers...))
-
 	// httpserver
-	server := &httpserver.PlayerServer{&InMemoryPlayerStore{}}
-	log.Fatal(http.ListenAndServe(":5001", server))
+	port := 5001
+	fmt.Printf("running go http server... on port %d", port)
+	server := &PlayerServer{NewInMemoryPlayerStore()}
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), server))
 }
