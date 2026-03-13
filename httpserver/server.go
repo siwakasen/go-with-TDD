@@ -15,6 +15,14 @@ type PlayerStore interface {
 type PlayerServer struct {
 	Store PlayerStore
 }
+type InMemoryPlayerStore struct{}
+
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return 123
+}
+
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+}
 
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	player := strings.TrimPrefix(r.URL.Path, "/players/")
