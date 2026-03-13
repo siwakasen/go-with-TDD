@@ -15,6 +15,9 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	return 123
 }
 
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+}
+
 func main() {
 	numbers := []int{1, 2, 3, 4}
 
