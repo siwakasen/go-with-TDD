@@ -1,4 +1,4 @@
-// package multiplereturnfunctions
+// Package multiplereturnfunctions
 package multiplereturnfunctions
 
 func getMinMax(n []int) (int, int) {
