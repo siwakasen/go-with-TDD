@@ -22,17 +22,17 @@ type Shape interface {
 }
 
 // Area method for rectangle: r.Area()
-func (r Rectangle) Area() float64 {
+func (r *Rectangle) Area() float64 {
 	return r.Height * r.Width
 }
 
 // Area method for circle: c.Area()
-func (c Circle) Area() float64 {
+func (c *Circle) Area() float64 {
 	return math.Pi * c.Radius * c.Radius
 }
 
 // Area method for triangle: t.Area()
-func (t Triangle) Area() float64 {
+func (t *Triangle) Area() float64 {
 	return 0.5 * (t.Base * t.Height)
 }
 
