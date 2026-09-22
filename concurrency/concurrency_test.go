@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func mockWebsiteChecker(url string) bool {
+func websiteChecker(url string) bool {
 	return url != "waat://furhurterwe.geds"
 }
 
@@ -22,12 +22,21 @@ func TestCheckWebsites(t *testing.T) {
 		"http://blog.gypsydave5.com": true,
 		"waat://furhurterwe.geds":    false,
 	}
+	t.Run("unbuffered channel", func(t *testing.T) {
+		got := CheckWebsites(websiteChecker, websites)
 
-	got := CheckWebsites(mockWebsiteChecker, websites)
+		if !reflect.DeepEqual(want, got) {
+			t.Fatalf("wanted %v, got %v", want, got)
+		}
+	})
 
-	if !reflect.DeepEqual(want, got) {
-		t.Fatalf("wanted %v, got %v", want, got)
-	}
+	t.Run("buffered channel", func(t *testing.T) {
+		got := CheckWebsitesWithBufferedChannel(websiteChecker, websites)
+
+		if !reflect.DeepEqual(want, got) {
+			t.Fatalf("wanted %v, got %v", want, got)
+		}
+	})
 }
 
 func slowStubWebsiteChecker(_ string) bool {

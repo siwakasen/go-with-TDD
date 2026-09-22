@@ -10,6 +10,8 @@ type result struct {
 
 func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	results := make(map[string]bool)
+
+	// NOTE: unbuffered channel
 	resultChannel := make(chan result)
 
 	for _, url := range urls {
@@ -17,13 +19,32 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 			resultChannel <- result{url, wc(url)}
 		}()
 	}
-	// TODO: example todo comment (showing hightlight on lazyvim)
 
 	for range urls {
 		r := <-resultChannel
 		results[r.string] = r.bool
 	}
-	// FIX: example fix comment
+
+	return results
+}
+
+func CheckWebsitesWithBufferedChannel(wc WebsiteChecker, urls []string) map[string]bool {
+	results := make(map[string]bool)
+	BufferSize := len(urls)
+
+	// NOTE: buffered channel
+	resultChannel := make(chan result, BufferSize)
+
+	for _, url := range urls {
+		go func() {
+			resultChannel <- result{url, wc(url)}
+		}()
+	}
+
+	for range urls {
+		r := <-resultChannel
+		results[r.string] = r.bool
+	}
 
 	return results
 }
