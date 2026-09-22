@@ -8,6 +8,10 @@ type result struct {
 	bool
 }
 
+func receiveUrls(resultChannel chan<- result, url string, wc WebsiteChecker) {
+	resultChannel <- result{url, wc(url)}
+}
+
 func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	results := make(map[string]bool)
 
@@ -15,9 +19,7 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 	resultChannel := make(chan result)
 
 	for _, url := range urls {
-		go func() {
-			resultChannel <- result{url, wc(url)}
-		}()
+		go receiveUrls(resultChannel, url, wc)
 	}
 
 	for range urls {
@@ -36,9 +38,7 @@ func CheckWebsitesWithBufferedChannel(wc WebsiteChecker, urls []string) map[stri
 	resultChannel := make(chan result, BufferSize)
 
 	for _, url := range urls {
-		go func() {
-			resultChannel <- result{url, wc(url)}
-		}()
+		go receiveUrls(resultChannel, url, wc)
 	}
 
 	for range urls {
