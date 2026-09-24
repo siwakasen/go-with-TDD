@@ -2,6 +2,7 @@
 package file
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -9,6 +10,11 @@ func createFile(filePath string) {
 	_, err := os.Stat(filePath)
 	if os.IsNotExist(err) {
 		file, _ := os.Create(filePath)
-		defer file.Close()
+
+		defer func() {
+			if err := file.Close(); err != nil {
+				fmt.Println(err)
+			}
+		}()
 	}
 }
