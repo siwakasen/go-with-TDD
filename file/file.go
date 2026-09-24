@@ -76,3 +76,11 @@ func simpleReadFile(filePath string) (string, error) {
 
 	return string(data), nil
 }
+
+func deleteFile(filePath string) error {
+	err := os.Remove(filePath)
+	if err != nil {
+		return err
+	}
+	return nil
+}
