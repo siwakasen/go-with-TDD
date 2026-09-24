@@ -38,4 +38,15 @@ func TestMain(t *testing.T) {
 			t.Errorf("got %q want %q", got, want)
 		}
 	})
+
+	t.Run("delete a file", func(t *testing.T) {
+		err := deleteFile(path + fileName)
+		if err != nil {
+			t.Errorf("file failed to delete: %v", err)
+		}
+		_, err = os.Stat(path + fileName)
+		if err == nil {
+			t.Errorf("file is still exist %v", err)
+		}
+	})
 }
