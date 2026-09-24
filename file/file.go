@@ -43,6 +43,14 @@ func writeFile(filePath string, text string) error {
 	return nil
 }
 
+func simpleWriteFile(filePath string, text string) error {
+	err := os.WriteFile(filePath, []byte(text), 0o644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func readFile(filePath string) (string, error) {
 	file, err := os.OpenFile(filePath, os.O_RDONLY, 0o644)
 	if err != nil {
